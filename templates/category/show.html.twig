@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie: {{ category.name }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">{{ category.name }}</h1>
+
+        {% if hasCourses %}
+            <div class="row">
+                {% for course in courses %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">                            
+                            <div class="card-body">
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <p class="card-text">{{ course.description }}</p>
+<a href="{{ path('course_details', {'categoryName': category.name, 'courseId': course.id}) }}" class="btn btn-primary">
+    Voir Cours
+</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Message lorsque il n'y a pas de cours -->
+            <div class="alert alert-warning">
+                Il n'y a pas de cours disponibles dans cette catégorie.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

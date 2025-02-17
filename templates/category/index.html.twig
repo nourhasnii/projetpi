@@ -1,0 +1,52 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %} Liste des Catégories {% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Liste des Catégories</h2>
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-4">
+                <div class="card shadow-lg p-3 mb-4 bg-white rounded text-center" 
+                     data-bs-toggle="modal" data-bs-target="#modal{{ category.id }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal pour afficher les sous-catégories -->
+            <div class="modal fade" id="modal{{ category.id }}" tabindex="-1" aria-labelledby="modalLabel{{ category.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel{{ category.id }}">Sous-catégories de {{ category.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% if category.children is empty %}
+                                <p>Aucune sous-catégorie disponible.</p>
+                            {% else %}
+                                <ul class="list-group">
+                                  {% for subcategory in category.children %}
+                                    <li class="list-group-item">
+                                      <a href="{{ path('category_courses_index', {'categoryName': subcategory.name}) }}" class="text-decoration-none">
+                                         {{ subcategory.name }}
+                                      </a>
+                                    </li>
+                                  {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Ajout de Bootstrap pour le modal -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

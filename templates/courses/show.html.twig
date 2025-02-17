@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ course.title }} - {{ category.name }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
+
+        {% if course.image %}
+            <img src="{{ asset('uploads/images/' ~ course.image) }}" class="img-fluid mb-3" alt="Image du cours">
+        {% endif %}
+
+        {% if course.video %}
+            <video class="w-100 mb-3" controls>
+                <source src="{{ asset('uploads/videos/' ~ course.video) }}" type="video/mp4">
+                Votre navigateur ne supporte pas les vidéos.
+            </video>
+        {% endif %}
+
+        {% if course.pdf %}
+            <p><a href="{{ asset('uploads/pdfs/' ~ course.pdf) }}" target="_blank" class="btn btn-secondary">Voir le PDF</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

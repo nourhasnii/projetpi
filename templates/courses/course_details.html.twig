@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Cours: {{ course.title }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">{{ course.title }}</h1>
+        <p>{{ course.description }}</p>
+
+        {% if course.contentFile %}
+            <div class="row">
+                {% for file in course.contentFile %}
+                    {% if file ends with '.jpg' or file ends with '.jpeg' or file ends with '.png' %}
+                        <div class="col-md-4">
+                            <img src="{{ asset('uploads/images/' ~ file) }}" class="img-fluid mb-3" alt="Image du cours">
+                        </div>
+                    {% elseif file ends with '.mp4' or file ends with '.ogg' or file ends with '.webm' %}
+                        <div class="col-md-4">
+                            <video class="w-100 mb-3" controls>
+                                <source src="{{ asset('uploads/videos/' ~ file) }}" type="video/mp4">
+                                Votre navigateur ne supporte pas les vidéos.
+                            </video>
+                        </div>
+                    {% elseif file ends with '.pdf' %}
+                        <div class="col-md-4">
+                            <p><a href="{{ asset('uploads/pdfs/' ~ file) }}" target="_blank" class="btn btn-secondary">Voir le PDF</a></p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                Il n'y a pas de fichiers associés à ce cours.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
